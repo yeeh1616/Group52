@@ -48,9 +48,9 @@ def generate_sample(ctx, e):
     else:
         ctx.tweetList.append(tweet)
         print(tweet['text'])
-        emit('message', {
-            'text': "Tweet: {}".format(tweet['text'])
-        })
+        # emit('message', {
+        #     'text': "Tweet: {}".format(tweet['text'])
+        # })
         fire('sample', {'previous': tweet}, delay=0.05)
 
 
@@ -62,10 +62,17 @@ def order(ctx, e):
 
     for tweet in ctx.tweetList:
         if keyword in tweet['text']:
-            emit('message', {
-                'text': "Tweet: {}".format(tweet['text'])
-            })
+            # emit('message', {
+            #     'text': "Tweet: {}".format(tweet['text'])
+            # })
+
+            emit('tweet', tweet)
 
     # emit('message',{
     #     'text': "{}".format("Test submit successed!")
     # })
+
+
+@event('tweet')
+def echo(ctx, e):
+    emit('tweet', e.data)
