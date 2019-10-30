@@ -10,6 +10,7 @@
 <script src="/lib/charts.js"></script>
 <script src="/lib/log.js"></script>
 <script src="/lib/form.js"></script>
+<script src="/lib/tweets.js"></script>
 </head>
 <body class="container_12">
 <h1>ECA Dashboard Template</h1>
@@ -25,8 +26,10 @@
     </form>
 </div>
 <script>
-block('#messages').log();
+<!--block('#messages').log();-->
+block('#messages').tweets();
 events.connect('message', '#messages');
+events.connect('tweet', '#messages');
 
 function func01(){
     $('#messages').children().empty();
