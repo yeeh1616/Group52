@@ -43,7 +43,6 @@ body {
 .grid_11,
 .grid_12 {
 	display:inline;
-	float: left;
 	position: relative;
 	margin-left: 10px;
 	margin-right: 10px;
