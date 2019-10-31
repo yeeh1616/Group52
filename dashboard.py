@@ -20,6 +20,7 @@ def add_request_handlers(httpd):
 @event('init')
 def setup(ctx, e):
     ctx.tweetList = []
+    ctx.hashtagCount = []
     ctx.f = open("dashboard_static/sports.json", "r")
 
     ctx.count = 0
@@ -48,9 +49,13 @@ def generate_sample(ctx, e):
     else:
         ctx.tweetList.append(tweet)
         print(tweet['text'])
-        # emit('message', {
-        #     'text': "Tweet: {}".format(tweet['text'])
-        # })
+
+        # Increase total count of corresponding hashtags
+        hts = get_hashtags(tweet)
+        for hashtag in hts:
+            inc_listing(ctx.hashtagCount, hashtag)
+            print(ctx.hashtagCount)
+
         emit('tweet', tweet)
         fire('sample', {'previous': tweet}, delay=0.05)
 
@@ -72,4 +77,24 @@ def order(ctx, e):
 def tweet(ctx, e):
     print(ctx, e)
 
+def get_hashtags(tweet):
+    try:
+        hts = tweet['retweeted_status']['entities']['hashtags']
+        return list(map(lambda ht: ht['text'], hts))
+    except KeyError:
+        return []
 
+def inc_listing(l, item):
+    i = 0
+    while i < len(l):
+        x = l[i]
+        if x[0] == item:
+            x[1] = x[1] + 1
+
+            # Keep most popular in front
+            if i != 0 and l[i-1][1] < x[1]:
+                l[i], l[i-1] = l[i-1], l[i]
+            return
+        i = i+1
+
+    l.append([item, 1])
