@@ -41,9 +41,9 @@ def generate_sample(ctx, e):
             return
     except:
         print("Non-json.")
-        emit('message', {
-            'text': "{}".format('Error')
-        })
+        # emit('message', {
+        #     'text': "{}".format('Error')
+        # })
         fire('sample', {'previous': 'Error'}, delay=0.05)
     else:
         ctx.tweetList.append(tweet)
@@ -51,6 +51,7 @@ def generate_sample(ctx, e):
         # emit('message', {
         #     'text': "Tweet: {}".format(tweet['text'])
         # })
+        emit('tweet', tweet)
         fire('sample', {'previous': tweet}, delay=0.05)
 
 
@@ -73,6 +74,6 @@ def order(ctx, e):
     # })
 
 
-@event('tweet')
-def echo(ctx, e):
-    emit('tweet', e.data)
+# @event('tweet')
+# def echo(ctx, e):
+#     emit('tweet', e.data)

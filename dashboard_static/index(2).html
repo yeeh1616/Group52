@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Neca Test</title>
+<link rel="stylesheet" href="/style/layout.css"/>
+<link rel="stylesheet" href="/style/theme.css"/>
+<script src="/lib/jquery-2.1.1.min.js"></script>
+<script src="/lib/jquery.flot.min.js"></script>
+<script src="/lib/core.js"></script>
+<script src="/lib/charts.js"></script>
+<script src="/lib/log.js"></script>
+<script src="/lib/form.js"></script>
+<script src="/lib/tweets.js"></script>
+</head>
+<body class="container_12">
+<h1>ECA Dashboard Template</h1>
+
+<div class="clear"></div>
+<div id='messages' class='grid_12 vert_4'></div>
+
+<div id='form' class='grid_8 vert_2'>
+    <form>
+        <textarea name='keyword' style="width:100%"></textarea>
+        <input type='submit' value='Search' onclick='func01()'/>
+        <input type='button' value='Clear' onclick='func01()'/>
+    </form>
+</div>
+<script>
+<!--block('#messages').log();-->
+block('#messages').tweets();
+events.connect('message', '#messages');
+events.connect('tweet', '#messages');
+
+function func01(){
+    $('#messages').children().empty();
+}
+
+block('#form').form({
+    target: '/api/order',
+    callback: function() {
+<!--        $('textarea').val('haha');-->
+<!--        $('#messages').val('haha');-->
+<!--        $('#messages').children().empty();-->
+    }
+});
+</script>
+</body>
+</html>
