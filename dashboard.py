@@ -61,45 +61,15 @@ def order(ctx, e):
     # time = e.data['time'].strftime('%Y-%m-%d %H:%M:%S')
 
     search_terms = e.data['keyword'].split(" ")
-    search_hashtags, search_keywords = partition(lambda w: w[0] == "#", search_terms)
-    print(hashtags, keywords)
+    print(search_terms)
 
     for tweet in ctx.tweetList:
-        try:
-            tweet_hashtags = tweet.retweeted_status.entities.hashtags
-            if elm_in_list(search_hashtags, tweet_hashtags):
-                emit('tweet', tweet)
-                continue
-        except ReferenceError as e:
-            pass
-
-        for kw in search_keywords:
-            if kw in tweet['text']:
+        for st in search_terms:
+            if st in tweet['text']:
                 emit('tweet', tweet)
 
-    # emit('message',{
-    #     'text': "{}".format("Test submit successed!")
-    # })
+@event('tweet')
+def tweet(ctx, e):
+    print(ctx, e)
 
 
-# @event('tweet')
-# def echo(ctx, e):
-#     emit('tweet', e.data)
-
-
-def partition(pred, iterable):
-    trues = []
-    falses = []
-    for item in iterable:
-        if pred(item):
-            trues.append(item)
-        else:
-            falses.append(item)
-    return trues, falses
-
-def elm_in_list(elm_list, search_list):
-    for e in elm_list:
-        for s in search_list:
-            if e == s:
-                return True
-    return False
