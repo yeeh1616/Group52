@@ -54,9 +54,22 @@ def generate_sample(ctx, e):
         hts = get_hashtags(tweet)
         for hashtag in hts:
             inc_listing(ctx.hashtagCount, hashtag)
+        
+        # Update chart if hashtag count changed
+        if len(hts) != 0:
             print(ctx.hashtagCount)
+            emit('hashtags', {
+                'action': 'reset'
+            })
+            for top in ctx.hashtagCount[:3]:
+                print(top)
+                emit('hashtags', {
+                    'action': 'set',
+                    'value': top
+                })
 
         emit('tweet', tweet)
+
         fire('sample', {'previous': tweet}, delay=0.05)
 
 
